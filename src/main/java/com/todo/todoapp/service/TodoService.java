@@ -17,21 +17,24 @@ public class TodoService {
         return todoRepo.findAll();
     }
 
-    public Todo saveTodo(Todo todo){
-        return todoRepo.save(todo);
+    public Long saveTodo(Todo todo){
+        if(todo.getDone() == null){
+            todo.setDone(false);
+        }
+        todoRepo.save(todo);
+        return todo.getId();
     }
 
-    public String deleteTodo(Long id) throws TodoNotFoundException {
-        String todoStatus = "";
+    public String deleteTodo(Long id) {
 
-        if(todoRepo.findById(id).isPresent()) {
+        if(todoRepo.existsById(id)) {
             todoRepo.deleteById(id);
         }
         else {
-            throw new TodoNotFoundException("Todo does not exist");
+            throw new TodoNotFoundException();
         }
 
-        return todoStatus;
+        return "Todo has been deleted";
     }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/todo")
 public class TodoController {
 
@@ -24,22 +24,18 @@ public class TodoController {
         return todoService.listTodo();
     }
     @PostMapping()
-    public Todo save(@RequestBody Todo todo){
+    public Long save(@RequestBody Todo todo){
         return todoService.saveTodo(todo);
     }
 
     @PutMapping
-    public Todo update(@RequestBody Todo todo){
+    public Long update(@RequestBody Todo todo){
         return todoService.saveTodo(todo);
     }
 
     @DeleteMapping(value = "/{id}")
-        public void delete(@PathVariable("id") Long id) {
-        try{
-           todoService.deleteTodo(id);
-        }
-        catch (TodoNotFoundException e){
-            System.out.println(e.getMessage());
-        }
+    public String delete(@PathVariable("id") Long id) {
+        return todoService.deleteTodo(id);
+
     }
 }
